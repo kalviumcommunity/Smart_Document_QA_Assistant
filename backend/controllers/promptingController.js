@@ -37,6 +37,7 @@ class PromptingController {
     }
   }
 
+  //one shot prompting
   static async generateOneShotPrompt(req, res) {
     try {
       const { question, context, domain = 'general' } = req.body;
