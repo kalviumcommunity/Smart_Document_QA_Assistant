@@ -14,11 +14,13 @@ const similarityRoutes = require('./routes/similarity');
 const promptRoutes = require('./routes/prompts');
 const documentRoutes = require('./routes/documents');
 const promptingRoutes = require('./routes/prompting');
+const llmRoutes = require('./routes/llm');
 
 app.use('/api/similarity', similarityRoutes);
 app.use('/api/prompts', promptRoutes);
 app.use('/api/documents', documentRoutes);
 app.use('/api/prompting', promptingRoutes);
+app.use('/api/llm', llmRoutes);
 
 app.get('/health', (req, res) => {
   res.json({ 
@@ -60,6 +62,15 @@ app.get('/', (req, res) => {
         'POST /api/prompting/compare': 'Compare all prompting techniques',
         'POST /api/prompting/demonstrate': 'Demonstrate multi-shot evolution',
         'POST /api/prompting/adaptive': 'Generate adaptive prompt based on user level'
+      },
+      llm: {
+        'POST /api/llm/structured': 'Generate structured JSON response',
+        'POST /api/llm/generate': 'Generate response with custom parameters',
+        'POST /api/llm/analyze-document': 'Analyze document with structured output',
+        'POST /api/llm/evaluate': 'Evaluate response quality',
+        'POST /api/llm/compare-similarity': 'Compare text similarity',
+        'GET /api/llm/schemas': 'Get available response schemas',
+        'POST /api/llm/demonstrate': 'Demonstrate structured output examples'
       }
     }
   });
