@@ -15,12 +15,14 @@ const promptRoutes = require('./routes/prompts');
 const documentRoutes = require('./routes/documents');
 const promptingRoutes = require('./routes/prompting');
 const llmRoutes = require('./routes/llm');
+const vectorRoutes = require('./routes/vector');
 
 app.use('/api/similarity', similarityRoutes);
 app.use('/api/prompts', promptRoutes);
 app.use('/api/documents', documentRoutes);
 app.use('/api/prompting', promptingRoutes);
 app.use('/api/llm', llmRoutes);
+app.use('/api/vector', vectorRoutes);
 
 app.get('/health', (req, res) => {
   res.json({ 
@@ -71,6 +73,16 @@ app.get('/', (req, res) => {
         'POST /api/llm/compare-similarity': 'Compare text similarity',
         'GET /api/llm/schemas': 'Get available response schemas',
         'POST /api/llm/demonstrate': 'Demonstrate structured output examples'
+      },
+      vector: {
+        'POST /api/vector/upload': 'Upload document to vector database',
+        'POST /api/vector/search': 'Search similar vectors using pgvector',
+        'GET /api/vector/documents': 'List all vector documents',
+        'GET /api/vector/documents/:id': 'Get vector document details',
+        'DELETE /api/vector/documents/:id': 'Delete vector document',
+        'GET /api/vector/stats': 'Get vector database statistics',
+        'POST /api/vector/compare': 'Compare vector operations',
+        'POST /api/vector/initialize': 'Initialize vector database'
       }
     }
   });
