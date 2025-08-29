@@ -4,7 +4,6 @@ require('dotenv').config();
 class EmbeddingService {
   constructor() {
     this.genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-    this.model = this.genAI.getGenerativeModel({ model: 'embedding-001' });
   }
 
   async generateEmbedding(text) {
@@ -21,7 +20,12 @@ class EmbeddingService {
 
       console.log(`Generating embedding for text (${cleanText.length} chars)`);
 
-      const result = await this.model.embedContent(cleanText);
+      const result = await this.genAI.embedContent({
+        model: "models/text-embedding-004",
+        content: cleanText,
+        taskType: "SEMANTIC_SIMILARITY"
+      });
+
       const embedding = result.embedding.values;
 
       console.log(`Generated embedding with ${embedding.length} dimensions`);

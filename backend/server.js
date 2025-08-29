@@ -12,9 +12,11 @@ app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
 const similarityRoutes = require('./routes/similarity');
 const promptRoutes = require('./routes/prompts');
+const documentRoutes = require('./routes/documents');
 
 app.use('/api/similarity', similarityRoutes);
 app.use('/api/prompts', promptRoutes);
+app.use('/api/documents', documentRoutes);
 
 app.get('/health', (req, res) => {
   res.json({ 
@@ -39,6 +41,14 @@ app.get('/', (req, res) => {
         'POST /api/prompts/test-variations': 'Test prompt variations for different expertise levels',
         'POST /api/prompts/analyze-question': 'Analyze question type and complexity',
         'POST /api/prompts/demonstrate': 'Demonstrate dynamic prompt adaptation'
+      },
+      documents: {
+        'POST /api/documents/upload': 'Upload document and generate embeddings',
+        'GET /api/documents': 'List all documents',
+        'GET /api/documents/:id': 'Get document details and chunks',
+        'POST /api/documents/query': 'Query documents using embeddings',
+        'DELETE /api/documents/:id': 'Delete document and chunks',
+        'POST /api/documents/embedding-demo': 'Generate embedding for demo text'
       }
     }
   });
