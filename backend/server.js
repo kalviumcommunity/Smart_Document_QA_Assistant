@@ -11,7 +11,10 @@ app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
 const similarityRoutes = require('./routes/similarity');
+const promptRoutes = require('./routes/prompts');
+
 app.use('/api/similarity', similarityRoutes);
+app.use('/api/prompts', promptRoutes);
 
 app.get('/health', (req, res) => {
   res.json({ 
@@ -30,6 +33,12 @@ app.get('/', (req, res) => {
         'POST /api/similarity/test': 'Test similarity functions with sample vectors',
         'POST /api/similarity/search': 'Search for similar document chunks',
         'POST /api/similarity/compare': 'Compare all similarity methods'
+      },
+      prompts: {
+        'POST /api/prompts/generate': 'Generate dynamic prompt based on context',
+        'POST /api/prompts/test-variations': 'Test prompt variations for different expertise levels',
+        'POST /api/prompts/analyze-question': 'Analyze question type and complexity',
+        'POST /api/prompts/demonstrate': 'Demonstrate dynamic prompt adaptation'
       }
     }
   });
