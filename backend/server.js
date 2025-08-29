@@ -13,10 +13,12 @@ app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 const similarityRoutes = require('./routes/similarity');
 const promptRoutes = require('./routes/prompts');
 const documentRoutes = require('./routes/documents');
+const promptingRoutes = require('./routes/prompting');
 
 app.use('/api/similarity', similarityRoutes);
 app.use('/api/prompts', promptRoutes);
 app.use('/api/documents', documentRoutes);
+app.use('/api/prompting', promptingRoutes);
 
 app.get('/health', (req, res) => {
   res.json({ 
@@ -49,6 +51,15 @@ app.get('/', (req, res) => {
         'POST /api/documents/query': 'Query documents using embeddings',
         'DELETE /api/documents/:id': 'Delete document and chunks',
         'POST /api/documents/embedding-demo': 'Generate embedding for demo text'
+      },
+      prompting: {
+        'POST /api/prompting/zero-shot': 'Generate zero-shot prompt',
+        'POST /api/prompting/one-shot': 'Generate one-shot prompt with example',
+        'POST /api/prompting/multi-shot': 'Generate multi-shot prompt with multiple examples',
+        'POST /api/prompting/chain-of-thought': 'Generate chain-of-thought reasoning prompt',
+        'POST /api/prompting/compare': 'Compare all prompting techniques',
+        'POST /api/prompting/demonstrate': 'Demonstrate multi-shot evolution',
+        'POST /api/prompting/adaptive': 'Generate adaptive prompt based on user level'
       }
     }
   });
