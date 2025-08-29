@@ -318,6 +318,51 @@ This information comes from ${similarChunks.length} relevant sections of the doc
       });
     }
   }
+
+  static async generateEmbeddingDemo(req, res) {
+    try {
+      const { text } = req.body;
+
+      if (!text || typeof text !== 'string') {
+        return res.status(400).json({ error: 'Text is required and must be a string' });
+      }
+
+      const startTime = Date.now();
+      const embeddingService = new EmbeddingService();
+      
+      const embedding = await embeddingService.generateEmbedding(text);
+      const processingTime = Date.now() - startTime;
+
+      const statistics = {
+        min: Math.min(...embedding),
+        max: Math.max(...embedding),
+        mean: embedding.reduce((a, b) => a + b, 0) / embedding.length
+      };
+
+      res.json({
+        text,
+        embedding: {
+          dimensions: embedding.length,
+          sample: embedding.slice(0, 10),
+          statistics
+        },
+        metadata: {
+          textLength: text.length,
+          estimatedTokens: Math.ceil(text.length / 4),
+          processingTime,
+          model: 'text-embedding-004'
+        },
+        timestamp: new Date().toISOString()
+      });
+
+    } catch (error) {
+      console.error('Error generating embedding demo:', error);
+      res.status(500).json({ 
+        error: 'Failed to generate embedding demo',
+        details: error.message 
+      });
+    }
+  }
 }
 
 DocumentController.upload = upload.single('file');
